@@ -23,6 +23,7 @@ option(protobuf_BUILD_SHARED_LIBS "Build Shared Libraries" ${protobuf_BUILD_SHAR
 include(CMakeDependentOption)
 cmake_dependent_option(protobuf_MSVC_STATIC_RUNTIME "Link static runtime libraries" ON
   "NOT protobuf_BUILD_SHARED_LIBS" OFF)
+option(protobuf_BUILD_PROTOC "Build Protobuf Compiler" ON)
 if (MSVC)
   set(protobuf_WITH_ZLIB_DEFAULT OFF)
 else (MSVC)
@@ -165,8 +166,10 @@ endif (protobuf_UNICODE)
 
 include(libprotobuf-lite.cmake)
 include(libprotobuf.cmake)
-include(libprotoc.cmake)
-include(protoc.cmake)
+if(protobuf_BUILD_PROTOC)
+  include(libprotoc.cmake)
+  include(protoc.cmake)
+endif(protobuf_BUILD_PROTOC)
 
 if (protobuf_BUILD_TESTS)
   include(tests.cmake)
